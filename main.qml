@@ -9,7 +9,7 @@ ApplicationWindow {
     height: 300
     title: "Simple QML PyQt6"
 
-    signal onSaveBtnClicked(string message)
+    signal onSaveBtnClicked(string title, string description, string dueDate, string auther, string created, string updated, bool done)
     
     RowLayout {
         id: layout
@@ -129,7 +129,7 @@ ApplicationWindow {
                     text: "Save"
                     Layout.fillWidth: true
                      onClicked: {
-                        onSaveBtnClicked("TESSSST")
+                        onSaveBtnClicked(titleInput.text,descriptionInput.text,dueDateInput.text,autherInput.text,createdInput.text,updatedInput.text,doneInput)
                     }
                 }
             }

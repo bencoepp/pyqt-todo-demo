@@ -15,9 +15,9 @@ def main():
 
     if not engine.rootObjects():
         sys.exit(-1)
-    root_object = engine.rootObjects()[0]
+    root = engine.rootObjects()[0]
 
-    root_object.onSaveBtnClicked.connect(handler.handleSignal)
+    root.onSaveBtnClicked.connect(handler.saveTodo)
 
     sys.exit(app.exec())
 
