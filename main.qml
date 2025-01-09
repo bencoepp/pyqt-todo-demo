@@ -8,6 +8,16 @@ ApplicationWindow {
     width: 400
     height: 300
     title: "Simple QML PyQt6"
+
+    Todo {
+        id: myTodo
+        title: "Buy groceries"
+        description: "Get milk, eggs, bread"
+        author: "Ben Cöppicus"
+        onTitleChanged: {
+            console.log("Title changed to:", title)
+        }
+    }
     
     RowLayout {
         id: layout
@@ -127,16 +137,6 @@ ApplicationWindow {
                     text: "Save"
                     Layout.fillWidth: true
                      onClicked: {
-
-                        Todo {
-                            id: myTodo
-                            title: "Buy groceries"
-                            description: "Get milk, eggs, bread"
-                            author: "Ben Cöppicus"
-                            onTitleChanged: {
-                                console.log("Title changed to:", title)
-                            }
-                        }
                         
                         myTodo.create()
                     }

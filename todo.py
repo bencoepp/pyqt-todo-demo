@@ -1,6 +1,9 @@
-from PyQt6.QtCore import QObject, pyqtSignal, pyqtSlot, 
+from PyQt6.QtCore import QObject, pyqtSignal, pyqtSlot, pyqtProperty
 
 class Todo(QObject):
+    # -------------------
+    # Signals
+    # -------------------
     titleChanged = pyqtSignal(str)
     descriptionChanged = pyqtSignal(str)
     dueDateChanged = pyqtSignal(str)
@@ -10,9 +13,12 @@ class Todo(QObject):
     doneChanged = pyqtSignal(bool)
 
     def __init__(self, parent=None):
-        super(Todo, self).__init__(parent)
+        super().__init__(parent)
 
-        self._title = "A nice todo"
+        # -------------------
+        # Default property values
+        # -------------------
+        self._title = "Bill Smith"
         self._description = "555 3264"
         self._dueDate = ""
         self._author = "Ben Cöppicus"
@@ -20,95 +26,116 @@ class Todo(QObject):
         self._updated = ""
         self._done = False
 
-    def getTitle(self):
+    # -------------------
+    # Title
+    # -------------------
+    @pyqtProperty(str, notify=titleChanged)
+    def title(self):
         return self._title
 
-    def setTitle(self, value):
+    @title.setter
+    def title(self, value):
         if self._title != value:
             self._title = value
             self.titleChanged.emit(value)
 
-    title = Property(str, fget=getTitle, fset=setTitle, notify=titleChanged)
-
-    def getDescription(self):
+    # -------------------
+    # Description
+    # -------------------
+    @pyqtProperty(str, notify=descriptionChanged)
+    def description(self):
         return self._description
 
-    def setDescription(self, value):
+    @description.setter
+    def description(self, value):
         if self._description != value:
             self._description = value
             self.descriptionChanged.emit(value)
 
-    description = Property(
-        str, fget=getDescription, fset=setDescription, notify=descriptionChanged
-    )
-
-    def getDueDate(self):
+    # -------------------
+    # Due Date
+    # -------------------
+    @pyqtProperty(str, notify=dueDateChanged)
+    def dueDate(self):
         return self._dueDate
 
-    def setDueDate(self, value):
+    @dueDate.setter
+    def dueDate(self, value):
         if self._dueDate != value:
             self._dueDate = value
             self.dueDateChanged.emit(value)
 
-    dueDate = Property(str, fget=getDueDate, fset=setDueDate, notify=dueDateChanged)
-
-    def getAuthor(self):
+    # -------------------
+    # Author
+    # -------------------
+    @pyqtProperty(str, notify=authorChanged)
+    def author(self):
         return self._author
 
-    def setAuthor(self, value):
+    @author.setter
+    def author(self, value):
         if self._author != value:
             self._author = value
             self.authorChanged.emit(value)
 
-    author = Property(str, fget=getAuthor, fset=setAuthor, notify=authorChanged)
-
-    def getCreated(self):
+    # -------------------
+    # Created
+    # -------------------
+    @pyqtProperty(str, notify=createdChanged)
+    def created(self):
         return self._created
 
-    def setCreated(self, value):
+    @created.setter
+    def created(self, value):
         if self._created != value:
             self._created = value
             self.createdChanged.emit(value)
 
-    created = Property(str, fget=getCreated, fset=setCreated, notify=createdChanged)
-
-    def getUpdated(self):
+    # -------------------
+    # Updated
+    # -------------------
+    @pyqtProperty(str, notify=updatedChanged)
+    def updated(self):
         return self._updated
 
-    def setUpdated(self, value):
+    @updated.setter
+    def updated(self, value):
         if self._updated != value:
             self._updated = value
             self.updatedChanged.emit(value)
 
-    updated = Property(str, fget=getUpdated, fset=setUpdated, notify=updatedChanged)
-
-    def getDone(self):
+    # -------------------
+    # Done
+    # -------------------
+    @pyqtProperty(bool, notify=doneChanged)
+    def done(self):
         return self._done
 
-    def setDone(self, value):
+    @done.setter
+    def done(self, value):
         if self._done != value:
             self._done = value
             self.doneChanged.emit(value)
 
-    done = Property(bool, fget=getDone, fset=setDone, notify=doneChanged)
-
-    # --- CRUD Method Stubs ---
-    @Slot()
+    # -------------------
+    # CRUD Method Stubs
+    # -------------------
+    @pyqtSlot()
     def create(self):
         # TODO: implement create logic
         print("Create called")
 
-    @Slot()
+    @pyqtSlot()
     def read(self):
         # TODO: implement read logic
         print("Read called")
 
-    @Slot()
+    @pyqtSlot()
     def update(self):
         # TODO: implement update logic
         print("Update called")
 
-    @Slot()
+    @pyqtSlot()
     def delete(self):
         # TODO: implement delete logic
         print("Delete called")
