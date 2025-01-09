@@ -1,15 +1,13 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
-
+import Demo 1.0
 ApplicationWindow {
     id: root
     visible: true
     width: 400
     height: 300
     title: "Simple QML PyQt6"
-
-    signal onSaveBtnClicked(string title, string description, string dueDate, string auther, string created, string updated, bool done)
     
     RowLayout {
         id: layout
@@ -129,7 +127,18 @@ ApplicationWindow {
                     text: "Save"
                     Layout.fillWidth: true
                      onClicked: {
-                        onSaveBtnClicked(titleInput.text,descriptionInput.text,dueDateInput.text,autherInput.text,createdInput.text,updatedInput.text,doneInput)
+
+                        Todo {
+                            id: myTodo
+                            title: "Buy groceries"
+                            description: "Get milk, eggs, bread"
+                            author: "Ben Cöppicus"
+                            onTitleChanged: {
+                                console.log("Title changed to:", title)
+                            }
+                        }
+                        
+                        myTodo.create()
                     }
                 }
             }
