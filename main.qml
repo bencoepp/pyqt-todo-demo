@@ -134,6 +134,14 @@ ApplicationWindow {
                             updatedInput.text,
                             doneInput.checked
                         )
+
+                        titleInput.clear()
+                        descriptionInput.clear()
+                        dueDateInput.clear()
+                        autherInput.clear()
+                        createdInput.clear()
+                        updatedInput.clear()
+                        doneInput.checked = false
                     }
                 }
             }
