@@ -1,6 +1,7 @@
 from PyQt6.QtCore import QAbstractListModel, Qt, QModelIndex, pyqtSlot
 from todo import Todo
 import datetime
+import json
 
 class TodoHandler(QAbstractListModel):
     TITLE_ROLE = Qt.ItemDataRole.UserRole + 1
@@ -14,6 +15,7 @@ class TodoHandler(QAbstractListModel):
     def __init__(self, parent=None):
         super().__init__(parent)
         self._todos = []
+        self.loadTodosFromJson()
 
     def rowCount(self, parent=QModelIndex()) -> int:
         return len(self._todos)
@@ -66,6 +68,7 @@ class TodoHandler(QAbstractListModel):
         self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
         self._todos.append(new_todo)
         self.endInsertRows()
+        self.saveTodosToJson()
     
     @pyqtSlot(str, str, str, str, str, str, bool, int)
     def update(self, title, description, dueDate, author, created, updated, done, index):
@@ -96,5 +99,54 @@ class TodoHandler(QAbstractListModel):
     
     def loadData(self):
         self.beginResetModel()
+        self.saveTodosToJson()
 
         self.endResetModel()
+
+    def saveTodosToJson(self):
+        data = []
+        for todo in self._todos:
+            data.append({
+                "title": todo.title,
+                "description": todo.description,
+                "dueDate": todo.dueDate,
+                "author": todo.author,
+                "created": todo.created,
+                "updated": todo.updated,
+                "done": todo.done
+            })
+        
+        with open("data.json", "w", encoding="utf-8") as file:
+            json.dump(data, file, indent=4, ensure_ascii=False)
+
+    def loadTodosFromJson(self):
+        try:
+            with open("data.json", "r", encoding="utf-8") as file:
+                data = json.load(file)
+
+            # In case your file is empty or doesn't contain a list,
+            # safely ensure data is a list
+            if not isinstance(data, list):
+                data = []
+
+            # Reset model to notify any attached views
+            self.beginResetModel()
+            self._todos.clear()
+
+            for item in data:
+                new_todo = Todo()
+                new_todo.title = item.get("title", "")
+                new_todo.description = item.get("description", "")
+                new_todo.dueDate = item.get("dueDate", "")
+                new_todo.author = item.get("author", "")
+                new_todo.created = item.get("created", "")
+                new_todo.updated = item.get("updated", "")
+                new_todo.done = item.get("done", False)
+                self._todos.append(new_todo)
+
+            self.endResetModel()
+
+        except FileNotFoundError:
+            print(f"File not found: {filename}")
+        except json.JSONDecodeError as e:
+            print(f"JSON decode error in {filename}: {e}")
