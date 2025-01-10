@@ -147,6 +147,6 @@ class TodoHandler(QAbstractListModel):
             self.endResetModel()
 
         except FileNotFoundError:
-            print(f"File not found: {filename}")
+            print(f"File not found: {"data.json"}")
         except json.JSONDecodeError as e:
-            print(f"JSON decode error in {filename}: {e}")
+            print(f"JSON decode error in {"data.json"}: {e}")
