@@ -69,6 +69,9 @@ ApplicationWindow {
                     CheckBox {
                         text: "Done"
                         checked: done
+                        onClicked: {
+                            todoHandler.updateDone(!done, index)
+                        }
                     }
 
                     Button{
@@ -142,10 +145,12 @@ ApplicationWindow {
                 }
                 TextField {
                     id: createdInput
+                    enabled: false
                     Layout.fillWidth: true
                 }
                 TextField {
                     id: updatedInput
+                    enabled: false
                     Layout.fillWidth: true
                 }
 

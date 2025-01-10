@@ -1,5 +1,6 @@
 from PyQt6.QtCore import QAbstractListModel, Qt, QModelIndex, pyqtSlot
 from todo import Todo
+import datetime
 
 class TodoHandler(QAbstractListModel):
     TITLE_ROLE = Qt.ItemDataRole.UserRole + 1
@@ -58,8 +59,8 @@ class TodoHandler(QAbstractListModel):
         new_todo.description = description
         new_todo.dueDate = dueDate
         new_todo.author = author
-        new_todo.created = created
-        new_todo.updated = updated
+        new_todo.created = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        new_todo.updated = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         new_todo.done = done
 
         self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
@@ -74,9 +75,17 @@ class TodoHandler(QAbstractListModel):
         updated_todo.dueDate = dueDate
         updated_todo.author = author
         updated_todo.created = created
-        updated_todo.updated = updated
+        updated_todo.updated = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         updated_todo.done = done
 
+        self._todos[index] = updated_todo
+        self.loadData()
+    
+    @pyqtSlot(bool, int)
+    def updateDone(self, done, index):
+        updated_todo = self._todos[index]
+        updated_todo.done = done
+        updated_todo.updated = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         self._todos[index] = updated_todo
         self.loadData()
 
