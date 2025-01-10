@@ -13,6 +13,8 @@ ApplicationWindow {
     TodoHandler{
         id: todoHandler
     }
+
+    property int editIndex: -1
     
     RowLayout {
         id: layout
@@ -34,7 +36,7 @@ ApplicationWindow {
                 delegate: Column {
                     id: columnContent
                     spacing: 4
-
+                
                     Text {
                         text: "Title: " + title
                     }
@@ -67,6 +69,31 @@ ApplicationWindow {
                     CheckBox {
                         text: "Done"
                         checked: done
+                    }
+
+                    Button{
+                        Layout.fillWidth: true
+                        text: "Edit"
+                        onClicked: {
+                            console.log(index)
+                            editIndex = index
+                            titleInput.text = title
+                            descriptionInput.text = description
+                            dueDateInput.text = dueDate
+                            doneInput.checked = done
+                            autherInput.text = auther
+                            updatedInput.text = updated
+                            createdInput.text = created
+                    
+                        }
+                    }
+
+                    Button{
+                        Layout.fillWidth: true
+                        text: "Delete"
+                        onClicked: {
+                            todoHandler.delete(index)
+                        }
                     }
                 }
             }
@@ -125,15 +152,46 @@ ApplicationWindow {
                     text: "Save"
                     Layout.fillWidth: true
                      onClicked: {
-                        todoHandler.create(
-                            titleInput.text,
-                            descriptionInput.text,
-                            dueDateInput.text,
-                            autherInput.text,
-                            createdInput.text,
-                            updatedInput.text,
-                            doneInput.checked
-                        )
+                        if(editIndex != -1){
+                            todoHandler.update(
+                                titleInput.text,
+                                descriptionInput.text,
+                                dueDateInput.text,
+                                autherInput.text,
+                                createdInput.text,
+                                updatedInput.text,
+                                doneInput.checked,
+                                editIndex
+                            )
+                            editIndex = -1
+                        }else{
+                            todoHandler.create(
+                                titleInput.text,
+                                descriptionInput.text,
+                                dueDateInput.text,
+                                autherInput.text,
+                                createdInput.text,
+                                updatedInput.text,
+                                doneInput.checked
+                            )
+                        }
+
+                        titleInput.clear()
+                        descriptionInput.clear()
+                        dueDateInput.clear()
+                        autherInput.clear()
+                        createdInput.clear()
+                        updatedInput.clear()
+                        doneInput.checked = false
+                    }
+                }
+
+                Button{
+                    id: cancelButton
+                    text: "Cancel"
+                    Layout.fillWidth: true
+                     onClicked: {
+                        editIndex = -1
 
                         titleInput.clear()
                         descriptionInput.clear()

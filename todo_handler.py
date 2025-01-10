@@ -65,3 +65,26 @@ class TodoHandler(QAbstractListModel):
         self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
         self._todos.append(new_todo)
         self.endInsertRows()
+    
+    @pyqtSlot(str, str, str, str, str, str, bool, int)
+    def update(self, title, description, dueDate, author, created, updated, done, index):
+        updated_todo = Todo()
+        updated_todo.title = title
+        updated_todo.description = description
+        updated_todo.dueDate = dueDate
+        updated_todo.author = author
+        updated_todo.created = created
+        updated_todo.updated = updated
+        updated_todo.done = done
+
+        self._todos[index] = updated_todo
+        self.loadData()
+    
+    @pyqtSlot(int)
+    def delete(self, index):
+        self._todos.pop(index)
+        self.loadData()
+    
+    def loadData(self):
+        self.beginResetModel()
+        self.endResetModel()
