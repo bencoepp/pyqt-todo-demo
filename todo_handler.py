@@ -79,7 +79,7 @@ class TodoHandler(QAbstractListModel):
 
         self._todos[index] = updated_todo
         self.loadData()
-    
+
     @pyqtSlot(int)
     def delete(self, index):
         self._todos.pop(index)
@@ -87,4 +87,5 @@ class TodoHandler(QAbstractListModel):
     
     def loadData(self):
         self.beginResetModel()
+
         self.endResetModel()

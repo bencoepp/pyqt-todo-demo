@@ -72,6 +72,7 @@ ApplicationWindow {
                     }
 
                     Button{
+                        id: editButton
                         Layout.fillWidth: true
                         text: "Edit"
                         onClicked: {
@@ -89,6 +90,7 @@ ApplicationWindow {
                     }
 
                     Button{
+                        id: deleteButton
                         Layout.fillWidth: true
                         text: "Delete"
                         onClicked: {
