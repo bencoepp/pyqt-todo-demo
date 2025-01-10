@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
-import Demo.Todo 1.0
+import Demo 1.0
 
 ApplicationWindow {
     id: root
@@ -10,14 +10,8 @@ ApplicationWindow {
     height: 300
     title: "Simple QML PyQt6"
 
-    Todo {
-        id: myTodo
-        title: "Buy groceries"
-        description: "Get milk, eggs, bread"
-        author: "Ben Cöppicus"
-        onTitleChanged: {
-            console.log("Title changed to:", title)
-        }
+    TodoHandler{
+        id: todoHandler
     }
     
     RowLayout {
@@ -35,17 +29,7 @@ ApplicationWindow {
             ListView {
                 width: 180; height: 200
 
-                model: ListModel {
-                    ListElement {
-                        title: "Bill Smith"
-                        description: "555 3264"
-                        dueDate: ""
-                        auther: "Ben Cöppicus"
-                        created: ""
-                        updated: ""
-                        done: false
-                    }
-                }
+                model: todoHandler.data
                 delegate: MouseArea{
                     Rectangle{
                         RowLayout{
@@ -138,8 +122,7 @@ ApplicationWindow {
                     text: "Save"
                     Layout.fillWidth: true
                      onClicked: {
-                        
-                        myTodo.create()
+                        todoHandler.create()
                     }
                 }
             }

@@ -25,7 +25,7 @@ class Todo(QObject):
         self._created = ""
         self._updated = ""
         self._done = False
-
+    
     # -------------------
     # Title
     # -------------------
@@ -116,26 +116,3 @@ class Todo(QObject):
         if self._done != value:
             self._done = value
             self.doneChanged.emit(value)
-
-    # -------------------
-    # CRUD Method Stubs
-    # -------------------
-    @pyqtSlot()
-    def create(self):
-        # TODO: implement create logic
-        print("Create called")
-
-    @pyqtSlot()
-    def read(self):
-        # TODO: implement read logic
-        print("Read called")
-
-    @pyqtSlot()
-    def update(self):
-        # TODO: implement update logic
-        print("Update called")
-
-    @pyqtSlot()
-    def delete(self):
-        # TODO: implement delete logic
-        print("Delete called")
