@@ -27,43 +27,46 @@ ApplicationWindow {
             Layout.fillHeight: true
 
             ListView {
-                width: 180; height: 200
+                id: list
+                anchors.fill: parent
+                model: todoHandler
+                verticalLayoutDirection: ListView.TopToBottom
+                delegate: Column {
+                    id: columnContent
+                    spacing: 4
 
-                model: todoHandler.data
-                delegate: MouseArea{
-                    Rectangle{
-                        RowLayout{
-                            CheckBox{
-                                Layout.fillWidth: true
-                                Layout.minimumWidth: 50
-                                Layout.preferredWidth: 50
-                                checked: done
-                            }
-                            ColumnLayout{
-                                Layout.fillWidth: true
-                                Layout.minimumWidth: 100
-                                Layout.preferredWidth: 150
+                    Text {
+                        text: "Title: " + title
+                    }
 
-                                Text{
-                                    text: title
-                                }
-                                Text{
-                                    text: description
-                                }
-                                Text{
-                                    text: dueDate
-                                }
-                                Text{
-                                    text: auther
-                                }
-                                Text{
-                                    text: created
-                                }
-                                Text{
-                                    text: updated
-                                }
-                            }
+                    Text {
+                        text: "Description: " + description
+                        wrapMode: Text.Wrap
+                    }
+
+                    Row {
+                        spacing: 20
+                        Text {
+                            text: "Due: " + dueDate
                         }
+                        Text {
+                            text: "Author: " + author
+                        }
+                    }
+
+                    Row {
+                        spacing: 20
+                        Text {
+                            text: "Created: " + created
+                        }
+                        Text {
+                            text: "Updated: " + updated
+                        }
+                    }
+
+                    CheckBox {
+                        text: "Done"
+                        checked: done
                     }
                 }
             }
@@ -122,7 +125,15 @@ ApplicationWindow {
                     text: "Save"
                     Layout.fillWidth: true
                      onClicked: {
-                        todoHandler.create()
+                        todoHandler.create(
+                            titleInput.text,
+                            descriptionInput.text,
+                            dueDateInput.text,
+                            autherInput.text,
+                            createdInput.text,
+                            updatedInput.text,
+                            doneInput.checked
+                        )
                     }
                 }
             }
